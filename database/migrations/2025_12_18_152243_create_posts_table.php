@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('slug');
             $table->string('image')->nullable();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->constrained(
+            $table->foreignId('category_id')->nullable()->constrained(
                 table: 'categories', indexName: 'posts_category_id'
-            )->nullable()->cascadeOnDelete()->nullOnDelete();
+            )->nullOnDelete();
             $table->text('body');
             $table->timestamps();
         });
