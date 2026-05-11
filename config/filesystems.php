@@ -14,6 +14,7 @@ return [
     */
 
     'default' => env('FILESYSTEM_DISK', 'local'),
+    'default_public_disk' => env('FILESYSTEM_PUBLIC_DISK', 'public'),
 
     /*
     |--------------------------------------------------------------------------
@@ -41,6 +42,15 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        'upload' => [
+            'driver' => 'local',
+            'root' => base_path('../pandusetia.my.id/storage'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,

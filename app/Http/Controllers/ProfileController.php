@@ -41,7 +41,7 @@ class ProfileController extends Controller
         }
 
         if (!empty($request->user()->avatar)) {
-            Storage::disk('public')->delete($request->user()->avatar);
+            Storage::disk(config('filesystems.default_public_disk'))->delete($request->user()->avatar);
         }
 
         $request->user()->update($validated);
