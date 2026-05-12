@@ -36,7 +36,7 @@ class ProfileController extends Controller
         }
 
         if ($request->hasFile('avatar')) {
-            $path = $request->file('avatar')->store('avatars', 'public');
+            $path = $request->file('avatar')->store('avatars', config('filesystems.default_public_disk'));
             $validated['avatar'] = $path;
         }
 
