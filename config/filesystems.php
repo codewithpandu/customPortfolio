@@ -50,7 +50,7 @@ return [
 
         'upload' => [
             'driver' => 'local',
-            'root' => base_path('../pandusetia.my.id/storage'),
+            'root' => base_path('../../pandusetia.my.id/storage'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
