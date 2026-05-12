@@ -38,7 +38,8 @@
                         <p class="mb-2 font-light text-gray-500 dark:text-gray-400">{!! $post->body !!}</p>
                         <div class="flex justify-between items-center mt-2">
                             <div class="flex items-center space-x-4">
-                                <img class="w-7 h-7 rounded-full" src="{{ $post->user->avatar }}" alt="Jese Leos avatar" />
+                                <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $post->user->avatar)}}"
+                                    alt="Jese Leos avatar" />
                                 <span class="font-medium dark:text-white">
                                     {{ $post->user->name }}
                                 </span>
