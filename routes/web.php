@@ -3,26 +3,35 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Category;
+use App\Http\Controllers\ProjectController;
 use App\Models\Post;
+use App\Models\Project;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('home');
+    return view('home', ['title' => 'Home']);
 })->name('home');
 
 Route::get('/project', function () {
-    return view('project');
+    $projects = Project::all();
+    return view('project', ['projects' => $projects,'title' => 'Project']);
 });
+
+Route::get('/project/{project:slug}', function (Project $project) {
+    return view('detail-project', ['project' => $project, 'title','title' => 'Project']);
+});
+
 Route::get('/blog', function () {
     $posts = Post::latest()->filter(request(['search']))->Paginate(6)->withQueryString();
 
-    return view('blog', ['posts' => $posts]);
+    return view('blog', ['posts' => $posts, 'title' => 'Blog']);
 })->name('blog');
 
 Route::get('/blog/{post:slug}', function (Post $post) {
-    return view('post', ['post' => $post]);
+    return view('post', ['post' => $post, 'title' => $post->title]);
 });
+
+
 
 
 
@@ -49,6 +58,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/categories/{category:slug}', action: [CategoryController::class, 'update']);
     Route::delete('/categories/{category:slug}', action: [CategoryController::class, 'destroy']);
 });
+
+    //Project
+    Route::get('/projects', action: [ProjectController::class, 'index'])->name('projects');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

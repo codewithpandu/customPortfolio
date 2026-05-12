@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout :title="$title">
 
     <section class="py-8 px-4 mx-auto lg:py-12 lg:px-6">
 
@@ -36,7 +36,7 @@
                             <a href="/blog/{{ $post->slug }}">{{ $post->title }} </a>
                         </h2>
                         <p class="mb-2 font-light text-gray-500 dark:text-gray-400">{!! $post->body !!}</p>
-                        <div class="flex justify-between items-center mt-2">
+                        <div class="flex justify-between items-center mt-auto">
                             <div class="flex items-center space-x-4">
                                 <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $post->user->avatar)}}"
                                     alt="Jese Leos avatar" />

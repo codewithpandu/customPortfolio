@@ -32,7 +32,7 @@
 
 <nav class="bg-neutral-primary fixed w-full z-20 top-0 start-0 border-b border-default">
     <div class="max-w-7xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="/" class="flex items-center space-x-3 rtl:space-x-reverse">
             <img src="{{ asset('img/psd-black.png') }}" class="h-7" alt="Pandu Logo" />
             <span class="self-center text-xl text-heading font-semibold whitespace-nowrap">PSD</span>
         </a>
