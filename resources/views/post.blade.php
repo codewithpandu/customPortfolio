@@ -12,8 +12,8 @@
     ]" />
                     <address class="flex items-center mb-6 not-italic pt-4">
                         <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                            <img class="mr-4 w-16 h-16 rounded-full"
-                                src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="Jese Leos">
+                            <img class="mr-4 w-16 h-16 rounded-full" src="{{ asset('storage/' . $post->user->avatar) }}"
+                                alt="Jese Leos">
                             <div>
                                 <a href="#" rel="author"
                                     class="text-xl font-bold text-gray-900 dark:text-white">{{ $post->user->name }}</a>
