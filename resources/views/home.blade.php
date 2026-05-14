@@ -37,8 +37,8 @@
                     </svg></a>
             </div>
         </div>
-        <div class="place-self-center overflow-hidden">
-            <img class="rounded-full size-80 md:size-80 object-cover object-top" src="{{ asset('img/pandu.jpg') }}"
+        <div class="place-self-center">
+            <img class="rounded-full size-80 object-cover object-top" src="{{ asset('img/pandu.jpg') }}"
                 alt="Pandu Setia Darmawan">
         </div>
     </div>
