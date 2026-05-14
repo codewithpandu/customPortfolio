@@ -9,7 +9,7 @@
                 user-friendly digital experiences.
             </p>
             <div class="flex gap-1 items-center mt-4">
-                <a href="#">
+                <a href="https://www.linkedin.com/in/pandu-setia-darmawan">
                     <svg class="size-12 hover:fill-brand" fill="#000000" version="1.1" id="Layer_1"
                         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         viewBox="-143 145 512 512" xml:space="preserve">
@@ -22,7 +22,7 @@
                         </g>
                     </svg>
                 </a>
-                <a href="#">
+                <a href="https://github.com/codewithpandu">
                     <svg class="size-14 hover:fill-brand" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
                         fill="#000000">
                         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="place-self-center">
-            <img class="rounded-full size-90 md:size-96 object-cover object-top" src="{{ asset('img/pandu.jpg') }}"
+            <img class="rounded-full size-80 md:size-96 object-cover object-top" src="{{ asset('img/pandu.jpg') }}"
                 alt="Pandu Setia Darmawan">
         </div>
     </div>
