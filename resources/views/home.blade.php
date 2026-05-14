@@ -1,9 +1,9 @@
 <x-layout :title="$title">
     <div class="grid md:grid-cols-2 md:gap-8 h-screen md:-mt-12">
         <div class="order-2 md:order-0 place-self-center">
-            <p class="text-2xl md:text-2xl font-medium">Hi 👋, I'm Pandu
+            <p class="text-2xl md:text-3xl font-bold">Hi 👋, I'm Pandu
             </p>
-            <h1 class="py-2 text-4xl md:text- font-bold">Web Developer</h1>
+            <h1 class="pb-4 text-4xl md:text-5xl font-bold">Web Developer</h1>
             <p class="md:w-lg">Fresh graduate from Universitas Amikom Yogyakarta with experience building modern web
                 applications using Laravel, React, and Next.js. Passionate about creating responsive, scalable, and
                 user-friendly digital experiences.
