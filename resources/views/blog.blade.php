@@ -24,7 +24,7 @@
             <div class="grid gap-8 lg:grid-cols-3">
                 @foreach ($posts as $post)
                     <article
-                        class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                        class="p-6 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 flex flex-col h-full">
                         <div class="flex justify-between items-center mb-5 text-gray-500">
                             <span
                                 class="bg-primary-100 text-brand text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
@@ -32,12 +32,14 @@
                             </span>
                             <span class="text-sm">{{ $post->created_at->diffForHumans() }}</span>
                         </div>
-                        <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                            <a href="/blog/{{ $post->slug }}">{{ $post->title }} </a>
-                        </h2>
-                        <p class="mb-2 font-light text-gray-500 dark:text-gray-400">{!! $post->body !!}</p>
+                        <div class="mb-2">
+                            <h2 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                                <a href="/blog/{{ $post->slug }}">{{ $post->title }} </a>
+                            </h2>
+                            <p class="mb-2 font-light text-gray-500 dark:text-gray-400">{!! $post->body !!}</p>
+                        </div>
                         <div class="flex justify-between items-center mt-auto">
-                            <div class="flex items-center space-x-4">
+                            <div class="flex items-center space-x-2">
                                 <img class="w-7 h-7 rounded-full" src="{{ asset('storage/' . $post->user->avatar)}}"
                                     alt="Jese Leos avatar" />
                                 <span class="font-medium dark:text-white">

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -27,9 +30,31 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => 'required',
+            'body' => 'required',
+            'url' => 'required',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('img/projects', config('filesystems.default_public_disk'));
+            $validated['image'] = $path;
+        }
+
+        $project::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => Str::slug($request->name),
+            'image' => $validated['image'],
+            'body' => $request->body,
+            'url' => $request->url,
+        ]);
+
+        return redirect()->route('projects')->with('success', 'Project created successfully');
     }
 
     /**
@@ -45,7 +70,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', ['projects' => $project]);
     }
 
     /**
@@ -53,7 +78,35 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+            'image' => Rule::unique(Project::class)->ignore($project->id),
+            'body' => 'required',
+            'url' => 'required',
+        ]);
+
+        if ($request->hasFile('image')) {
+            if (!empty($project->image)) {
+                Storage::disk(config('filesystems.default_public_disk'))
+                    ->delete($project->image);
+            }
+
+        $validated['image'] = $request->file('image')
+            ->store('img/projects', config('filesystems.default_public_disk'));
+        }
+
+
+        $project->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'slug' => Str::slug($request->name),
+            'image' => $validated['image'] ?? $project->image,
+            'body' => $request->body,
+            'url' => $request->url,
+        ]);
+
+        return redirect()->route('projects')->with('success', 'Project updated successfully');
     }
 
     /**
@@ -61,6 +114,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->route('projects')->with('success', 'Project deleted successfully');
     }
 }

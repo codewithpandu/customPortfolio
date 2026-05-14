@@ -8,10 +8,9 @@
                     <div class="mb-2">
                         <img class="w-full " src="{{ asset('img/burger-v1.jpg') }}" alt="">
                     </div>
-                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae quo eos enim ipsum fuga, sint
-                        iste culpa dolorum veritatis soluta eveniet maxime illo blanditiis modi quas! Beatae repellendus
-                        voluptates iure!
-                    </p>
+                    <div class="mt-4 editor">
+                        {!! $project->body !!}
+                    </div>
                 </div>
             </article>
         </div>

@@ -38,7 +38,7 @@
             </div>
         </div>
         <div class="place-self-center">
-            <img class="rounded-full size-96 object-cover object-top" src="{{ asset('img/pandu.jpg') }}"
+            <img class="rounded-full size-90 md:size-96 object-cover object-top" src="{{ asset('img/pandu.jpg') }}"
                 alt="Pandu Setia Darmawan">
         </div>
     </div>

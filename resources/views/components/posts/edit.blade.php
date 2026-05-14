@@ -1,5 +1,8 @@
+@push('style')
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+@endpush
 <div class="max-w-3xl bg-white rounded-lg dark:bg-gray-800">
-    <form action="/post/{{ $post->slug }}" method="POST" enctype="multipart/form-data">
+    <form action="/post/{{ $post->slug }}" method="POST" enctype="multipart/form-data" id="post-form">
         @csrf
         @method('PATCH')
         <div class="mb-4">
@@ -43,11 +46,13 @@
             <div class="sm:col-span-2 mt-2">
                 <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
                 <textarea id="body" name="body" rows="4"
-                    class=" block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    class=" hidden p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Post body article">{{ old('body') ?? $post->body }}</textarea>
                 @error('body')
                     <p class="mt-2.5 text-sm text-fg-danger-strong"><span class="font-medium">{{ $message }}</p>
                 @enderror
+            </div>
+            <div class="mt-2" id="editor">
             </div>
         </div>
         <button type="submit"
@@ -56,3 +61,24 @@
         </button>
     </form>
 </div>
+
+@push('script')
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+    <script>
+        const quill = new Quill('#editor', {
+            theme: 'snow',
+            placeholder: 'Write post body'
+        });
+
+        const postForm = document.getElementById('post-form');
+        const postBody = document.getElementById('body');
+        const quillEditor = document.getElementById('editor');
+
+        postForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            postBody.value = quillEditor.children[0].innerHTML;
+            postForm.submit();
+        });
+    </script>
+@endpush

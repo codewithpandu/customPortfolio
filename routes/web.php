@@ -57,10 +57,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/categories/{category:slug}', action: [CategoryController::class, 'show']);
     Route::patch('/categories/{category:slug}', action: [CategoryController::class, 'update']);
     Route::delete('/categories/{category:slug}', action: [CategoryController::class, 'destroy']);
-});
-
+    
     //Project
     Route::get('/projects', action: [ProjectController::class, 'index'])->name('projects');
+    Route::post('/projects', action: [ProjectController::class, 'store']);
+    Route::get('/projects/{project:slug}/edit', action: [ProjectController::class, 'edit']);
+    Route::patch('/projects/{project:slug}', action: [ProjectController::class, 'update']);
+    Route::delete('/projects/{project:slug}', action: [ProjectController::class, 'destroy']);
+});
+
+    
 
 
 Route::middleware('auth')->group(function () {

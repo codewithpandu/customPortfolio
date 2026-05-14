@@ -1,4 +1,5 @@
 <!-- Start block -->
+
 <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 antialiased">
     @if (Session::has('success'))
         <div class="flex justify-center">
@@ -35,8 +36,8 @@
             <div class="flex flex-col md:flex-row items-center space-y-3 md:space-y-0 md:space-x-4 p-4">
                 <div
                     class="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 shrink-0">
-                    <button type="submit" id="createCategoryModalButton" data-modal-target="createCategoryModal"
-                        data-modal-toggle="createCategoryModal"
+                    <button type="submit" id="createProjectModalButton" data-modal-target="createProjectModal"
+                        data-modal-toggle="createProjectModal"
                         class="cursor-pointer flex items-center justify-center text-white bg-brand hover:bg-brand-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
                         <svg class="h-3.5 w-3.5 mr-2" fill="currentColor" viewbox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -53,12 +54,19 @@
                     <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
                             <th scope="col" class="px-4 py-3">Project</th>
+                            <th scope="col" class="px-4 py-3">Description</th>
+                            <th scope="col" class="px-4 py-3">Cover</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($projects as $project)
                             <tr class="border-b dark:border-gray-700">
                                 <td class="px-4">{{ $project->name }}</td>
+                                <td class="px-4">{{ Str::limit($project->description, 50) }}</td>
+                                <td class="px-4">
+                                    <img class="w-10" src="{{ asset('storage/' . $project->image)  }}"
+                                        alt="{{ $project->name }}">
+                                </td>
                                 <td class="px-4 py-3 flex items-center justify-end">
                                     <button id="projects-{{ $project->id }}-dropdown-button"
                                         data-dropdown-toggle="projects-{{ $project->id }}-dropdown"
@@ -75,9 +83,9 @@
                                         <ul class="py-1 text-sm"
                                             aria-labelledby="projects-{{ $project->id }}-dropdown-button">
                                             <li>
-                                                <button href="/projects/{{ $project->slug }}/edit"
-                                                    data-modal-target="readCategoryModal"
-                                                    data-modal-toggle="readCategoryModal"
+                                                <a href="/projects/{{ $project->slug }}/edit" {{--
+                                                    data-modal-target="updateProjectModal-{{ $project->id }}"
+                                                    data-modal-toggle="updateProjectModal-{{ $project->id }}" --}}
                                                     class="flex w-full items-center py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white text-gray-700 dark:text-gray-200">
                                                     <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
                                                         viewbox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -87,7 +95,7 @@
                                                             d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
                                                     </svg>
                                                     Edit
-                                                </button>
+                                                </a>
                                             </li>
                                             <li>
                                                 <button type="submit" data-modal-target="deleteModal-{{ $project->id }}"
@@ -103,7 +111,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    {{-- <div id="deleteModal-{{ $category->id }}" tabindex="-1" aria-hidden="true"
+                                    <div id="deleteModal-{{ $project->id }}" tabindex="-1" aria-hidden="true"
                                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                         <div class="relative p-4 w-full max-w-md max-h-full">
                                             <!-- Modal content -->
@@ -111,7 +119,7 @@
                                                 class="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                                                 <button type="button"
                                                     class="text-gray-400 absolute top-2.5 right-2.5 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                    data-modal-toggle="deleteModal">
+                                                    data-modal-toggle="deleteModal-{{ $project->id }}">
                                                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
                                                         viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                         <path fill-rule="evenodd"
@@ -130,10 +138,10 @@
                                                 <p class="mb-4 text-gray-500 dark:text-gray-300">Are you sure you want to
                                                     delete this item?</p>
                                                 <div class="flex justify-center items-center space-x-4">
-                                                    <button data-modal-toggle="deleteModal" type="button"
+                                                    <button data-modal-toggle="deleteModal-{{ $project->id }}" type="button"
                                                         class="py-2 px-3 text-sm font-medium text-gray-500 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-300 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">No,
                                                         cancel</button>
-                                                    <form action="/categories/{{ $category->slug }}" method="POST">
+                                                    <form action="/projects/{{ $project->slug }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit"
@@ -144,7 +152,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="readCategoryModal" tabindex="-1" aria-hidden="true"
+                                    <div id="updateProjectModal-{{ $project->id }}" tabindex="-1" aria-hidden="true"
                                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                         <div class="relative p-4 w-2/3 max-w-xl max-h-full">
                                             <!-- Modal content -->
@@ -154,10 +162,10 @@
                                                 <div
                                                     class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                                                     <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Update
-                                                        Category</h3>
+                                                        Project</h3>
                                                     <button type="button"
                                                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        data-modal-toggle="readCategoryModal">
+                                                        data-modal-toggle="updateProjectModal-{{ $project->id }}">
                                                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
                                                             viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                                             <path fill-rule="evenodd"
@@ -168,7 +176,8 @@
                                                     </button>
                                                 </div>
                                                 <!-- Modal body -->
-                                                <form action="/categories/{{ $category->slug }}" method="POST">
+                                                <form action="/projects/{{ $project->slug }}" method="POST"
+                                                    enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PATCH')
                                                     <div class="mb-4 ">
@@ -176,19 +185,71 @@
                                                             <label for="name"
                                                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                                             <input type="text" name="name" id="name"
-                                                                value="{{ $category->name }}"
+                                                                value="{{ old('name', $project->name) }}"
                                                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
+                                                            @error('name')
+                                                                <p class="mt-2.5 text-sm text-fg-danger-strong"><span
+                                                                        class="font-medium">{{ $message }}</p>
+                                                            @enderror
+                                                        </div>
+                                                        <div>
+                                                            <label for="description"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                                            <input type="text" name="description" id="description"
+                                                                value="{{ old('description', $project->description) }}"
+                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                                placeholder="Inster description" required="">
+                                                            @error('description')
+                                                                <p class="mt-2.5 text-sm text-fg-danger-strong"><span
+                                                                        class="font-medium">{{ $message }}</p>
+                                                            @enderror
+                                                        </div>
+                                                        <div>
+                                                            <label for="url"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
+                                                            <input type="text" name="url" id="url"
+                                                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                                placeholder="Inster url" required=""
+                                                                value="{{ old('url', $project->url) }}">
+                                                            @error('url')
+                                                                <p class="mt-2.5 text-sm text-fg-danger-strong"><span
+                                                                        class="font-medium">{{ $message }}</p>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="mt-2">
+                                                            <label class="block mb-2.5 text-sm font-medium text-heading"
+                                                                for="image">Image</label>
+                                                            <input
+                                                                class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
+                                                                id="image" type="file" name="image" accept="image/*"
+                                                                value="{{ old('image', $project->image) }}">
+                                                            @error('image')
+                                                                <p class="mt-2.5 text-sm text-fg-danger-strong"><span
+                                                                        class="font-medium">{{ $message }}</p>
+                                                            @enderror
+                                                        </div>
+                                                        <div class="sm:col-span-2 mt-2">
+                                                            <label for="body"
+                                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
+                                                            <textarea id="body" name="body" rows="4"
+                                                                value="{{ old('body', $project->body) }}"
+                                                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                                                placeholder="Body project">{{ old('body', $project->body)}}</textarea>
+                                                            @error('body')
+                                                                <p class="mt-2.5 text-sm text-fg-danger-strong"><span
+                                                                        class="font-medium">{{ $message }}</p>
+                                                            @enderror
                                                         </div>
                                                     </div>
                                                     <div class="flex items-center space-x-4">
                                                         <button type="submit"
                                                             class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Update
-                                                            Category</button>
+                                                            Project</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -199,18 +260,19 @@
     </div>
 </section>
 <!-- End block -->
+
 <!-- Create modal -->
-<div id="createCategoryModal" tabindex="-1" aria-hidden="true"
+<div id="createProjectModal" tabindex="-1" aria-hidden="true"
     class="hidden overflow-y-auto mx-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative p-4 w-2/3 md:w-xl max-h-full">
         <!-- Modal content -->
         <div class="relative p-4 w-full bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
             <!-- Modal header -->
             <div class="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add Category</h3>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Add Project</h3>
                 <button type="button"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    data-modal-target="createCategoryModal" data-modal-toggle="createCategoryModal">
+                    data-modal-target="createProjectModal" data-modal-toggle="createProjectModal">
                     <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd"
@@ -221,17 +283,57 @@
                 </button>
             </div>
             <!-- Modal body -->
-            <form action="/categories" method="POST">
+            <form action="/projects" method="POST" enctype="multipart/form-data" id="project-form">
                 @csrf
+
                 <div class="mb-4">
-                    <div>
-                        <label for="name"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                        <input type="text" name="name" id="name"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                            placeholder="Type category" required="">
-                    </div>
+                    <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                    <input type="text" name="name" id="name"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Insert name project">
+                    @error('name')
+                        <p class="mt-2.5 text-sm text-fg-danger-strong"><span class="font-medium">{{ $message }}</p>
+                    @enderror
                 </div>
+                <div class="mb-4">
+                    <label for="description"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                    <input type="text" name="description" id="description"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Inster description" required="">
+                    @error('description')
+                        <p class="mt-2.5 text-sm text-fg-danger-strong"><span class="font-medium">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mb-4">
+                    <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">URL</label>
+                    <input type="text" name="url" id="url"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Inster url" required="">
+                    @error('url')
+                        <p class="mt-2.5 text-sm text-fg-danger-strong"><span class="font-medium">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="mt-2">
+                    <label class="block mb-2.5 text-sm font-medium text-heading" for="image">Image</label>
+                    <input
+                        class="cursor-pointer bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand block w-full shadow-xs placeholder:text-body"
+                        id="image" type="file" name="image" accept="image/*">
+                    @error('image')
+                        <p class="mt-2.5 text-sm text-fg-danger-strong"><span class="font-medium">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div class="sm:col-span-2 mt-2">
+                    <label for="body" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Body</label>
+                    <textarea id="body" name="body" rows="4"
+                        class="p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        placeholder="Body project">{{ old('body')}}</textarea>
+                    @error('body')
+                        <p class="mt-2.5 text-sm text-fg-danger-strong"><span class="font-medium">{{ $message }}</p>
+                    @enderror
+                </div>
+
+
                 <button type="submit"
                     class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     <svg class="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewbox="0 0 20 20"
@@ -240,7 +342,7 @@
                             d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                             clip-rule="evenodd" />
                     </svg>
-                    Add new Category
+                    Add new Project
                 </button>
             </form>
         </div>
