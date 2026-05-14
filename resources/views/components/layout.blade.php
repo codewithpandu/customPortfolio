@@ -9,6 +9,7 @@
     @vite('resources/css/app.css')
 
     <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <link rel="shortcut icon" href="{{ asset('img/pandu.jpg') }}" type="image/x-icon">
 
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
