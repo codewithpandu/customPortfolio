@@ -3,7 +3,7 @@
         <div class="order-2 md:order-0 place-self-center">
             <p class="text-2xl md:text-2xl font-medium">Hi 👋, I'm Pandu
             </p>
-            <h1 class="py-2 text-4xl md:text-5xl text-brand font-bold">Web Developer</h1>
+            <h1 class="py-2 text-4xl md:text- font-bold">Web Developer</h1>
             <p class="md:w-lg">Fresh graduate from Universitas Amikom Yogyakarta with experience building modern web
                 applications using Laravel, React, and Next.js. Passionate about creating responsive, scalable, and
                 user-friendly digital experiences.
