@@ -6,8 +6,10 @@
                     <a href="/project" class="text-sm text-gray-600 mb-4 block hover:text-black">← Kembali</a>
                     <h1 class="text-3xl font-bold mb-4">{{ $project->name }}</h1>
                     <div class="mb-2">
-                        <img class="w-full " src="{{ asset('img/burger-v1.jpg') }}" alt="">
+                        <img class="w-full" src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->name }}">
                     </div>
+                    <h3 class="text-lg font-semibold mb-2">Deskripsi</h3>
+                    <p>{{ $project->description }}</p>
                     <div class="mt-4 editor">
                         {!! $project->body !!}
                     </div>
