@@ -96,7 +96,8 @@ class ProjectController extends Controller
             ->store('img/projects', config('filesystems.default_public_disk'));
         }
 
-
+        $validated['slug'] = Str::slug($request->name);
+        
         $project->update([
             'name' => $request->name,
             'description' => $request->description,

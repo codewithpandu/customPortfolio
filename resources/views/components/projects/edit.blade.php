@@ -71,6 +71,12 @@
             placeholder: 'Write post body',
         });
 
+
+        quill.root.innerHTML = document.querySelector('#body').value;
+        quill.on('text-change', function () {
+            document.querySelector('#body').value = quill.root.innerHTML;
+        });
+
         const postForm = document.getElementById('project-form');
         const postBody = document.getElementById('body');
         const quillEditor = document.getElementById('editor');
