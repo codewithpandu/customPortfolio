@@ -98,14 +98,16 @@ class ProjectController extends Controller
 
         $validated['slug'] = Str::slug($request->name);
         
-        $project->update([
-            'name' => $request->name,
-            'description' => $request->description,
-            'slug' => Str::slug($request->name),
-            'image' => $validated['image'] ?? $project->image,
-            'body' => $request->body,
-            'url' => $request->url,
-        ]);
+        // $project->update([
+        //     'name' => $request->name,
+        //     'description' => $request->description,
+        //     'slug' => Str::slug($request->name),
+        //     'image' => $validated['image'] ?? $project->image,
+        //     'body' => $request->body,
+        //     'url' => $request->url,
+        // ]);
+
+        $project->update($validated);
 
         return redirect()->route('projects')->with('success', 'Project updated successfully');
     }
